@@ -8,6 +8,9 @@ import tempfile
 import db
 from datetime import timedelta
 from datetime import datetime, date, time
+import pstats
+import memory_profiler
+import pprofile
 
 ErrUsage = "usage"
 ErrUnknownCommand = "unknow command"
@@ -119,6 +122,8 @@ class BenchCmd:
         self.stdin = Main.stdin
         self.stdout = Main.stdout
         self.stderr = Main.stderr
+        self.profile = cProfile.Profile()
+        self.mem_profile = memory_profiler()
     def ParseFlags(self,*args):
         options = BenchOptions()
         parser = argparse.ArgumentParser()
@@ -188,9 +193,20 @@ class BenchCmd:
         if BenchOptions.ProfileMode is 'w':
             self.stopProfiling()
         return err
+    def stopProfiling(self):
+        if BenchOptions.CPUProfile is '':
+            cpuprofile = open(BenchOptions.CPUProfile)
+            if cpuprofile is None:
+                self.stderr.write("bench: could not create cpu profile %q: %v\n" % BenchOptions.CPUProfile, err)
+                os.exit(1)
+            self.profile.disable()
+            self.profile.dump_stats(cpuprofile)
     def startProfiling(self,BenchOptions):
         err = ''
         if BenchOptions.CPUProfile is not '':
+            self.profile.enable()
+        if BenchOptions.MemProfile is not '':
+
 
 
 
@@ -198,4 +214,4 @@ def NewBenchCmd(Main):
     return BenchCmd(Main)
 
 def main():
-    os._exit(1)
+    os.exit(1)
