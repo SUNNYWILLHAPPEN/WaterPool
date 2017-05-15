@@ -9,22 +9,23 @@ logging.basicConfig(
     filename='/tmp/test.log',
     filemode='w')
 
+
 class BackendGetter:
+
     def Backend(self):
         pass
 
+
 alarmSet = {}
+
 
 class AlarmStore:
     mu = threading.Lock()
-    def __init__(self,bg):
+
+    def __init__(self, bg):
         self.types = {}
         self.bg = bg
+
     def restore(self):
         b = BackendGetter(self.bg).Backend()
         tx = b.BatchTx()
-        
-
-
-
-

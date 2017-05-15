@@ -14,35 +14,47 @@ logging.basicConfig(
     filename='/tmp/test.log',
     filemode='w'
 )
+
+
 class Backend:
     def ReadTx(self):
         pass
+
     def BatchTx(self):
         pass
+
     def Snapshop(self):
         pass
-    def Hash(self,ignores):
+
+    def Hash(self, ignores):
         pass
+
     def Size(self):
         pass
+
     def Defrag(self):
         pass
+
     def ForceCommit(self):
         pass
+
     def Close(self):
         pass
+
 
 class Snapshot:
     def Size(self):
         pass
+
     def WriteTo(self):
         pass
+
     def Close(self):
         pass
+
 
 class backend:
     size = int()
     commits = int()
     mu = threading.Lock()
-    db 
-
+    db
